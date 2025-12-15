@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Информационная база</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Единая информационная система</h1>
+    <p class="sub">Доступ: служебный</p>
+</header>
+
+<main>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Поиск по ФИО или ID">
+        <button onclick="search()">Найти</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Дата рождения</th>
+                <th>Статус</th>
+                <th>Регион</th>
+            </tr>
+        </thead>
+        <tbody id="result">
+            <!-- данные -->
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <p>Учебный макет. Все данные вымышлены.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
