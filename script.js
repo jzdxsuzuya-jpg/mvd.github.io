@@ -10,7 +10,8 @@ const defaultData = [
     { id: "223346", name: "Антончикова Варвара Вячеславовна", dob: "19.01.2010", status: "Без ограничений", region: "Санкт-Петербург" }
 ];
 
-let data = JSON.parse(localStorage.getItem("people")) || defaultData;
+let data = defaultData;
+save();
 
 const statuses = [
     "Без ограничений",
