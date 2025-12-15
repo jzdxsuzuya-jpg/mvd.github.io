@@ -7,19 +7,36 @@ window.addEventListener("load", () => {
 const data = [
     { id: "548291", name: "Илюшин Павел Ильич", dob: "09.07.2007", status: "Без ограничений", region: "Санкт-Петербург" },
     { id: "774102", name: "Илюшина Елена Олеговна", dob: "04.05.1985", status: "В розыске", region: "Санкт-Петербург" },
-    { id: "119384", name: "Илюшин Илья Андреевич", dob: "08.02.1985", status: "Без ограничений", region: "Санат-Петербург" }
+    { id: "119384", name: "Илюшин Илья Андреевич", dob: "08.02.1985", status: "Без ограничений", region: "Санкт-Петербург" }
+];
+
+const statuses = [
+    "Без ограничений",
+    "Проверен",
+    "В розыске",
+    "Под наблюдением",
+    "Задержан"
 ];
 
 function render(list) {
     const tbody = document.getElementById("result");
     tbody.innerHTML = "";
-    list.forEach(p => {
+
+    list.forEach((p, index) => {
+        const options = statuses.map(s =>
+            `<option value="${s}" ${s === p.status ? "selected" : ""}>${s}</option>`
+        ).join("");
+
         tbody.innerHTML += `
             <tr>
                 <td data-label="ID">${p.id}</td>
                 <td data-label="ФИО">${p.name}</td>
                 <td data-label="Дата рождения">${p.dob}</td>
-                <td data-label="Статус">${p.status}</td>
+                <td data-label="Статус">
+                    <select class="status-select" onchange="changeStatus(${index}, this.value)">
+                        ${options}
+                    </select>
+                </td>
                 <td data-label="Регион">${p.region}</td>
             </tr>
         `;
@@ -35,3 +52,7 @@ function search() {
 }
 
 render(data);
+
+function changeStatus(index, newStatus) {
+    data[index].status = newStatus;
+}
