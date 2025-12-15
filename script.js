@@ -1,3 +1,11 @@
+const defaultData = [
+    { id: "548291", name: "Иванов Сергей Петрович", dob: "12.03.1987", status: "Проверен", region: "Московская обл." },
+    { id: "774102", name: "Смирнов Алексей Игоревич", dob: "01.11.1992", status: "В розыске", region: "Санкт-Петербург" },
+    { id: "119384", name: "Кузнецов Максим Андреевич", dob: "22.07.2000", status: "Без ограничений", region: "Казань" }
+];
+
+let data = JSON.parse(localStorage.getItem("people")) || defaultData;
+
 window.addEventListener("load", () => {
     setTimeout(() => {
         document.getElementById("loader").style.display = "none";
@@ -55,4 +63,11 @@ render(data);
 
 function changeStatus(index, newStatus) {
     data[index].status = newStatus;
+    save();
 }
+
+function save() {
+    localStorage.setItem("people", JSON.stringify(data));
+}
+
+render(data);
