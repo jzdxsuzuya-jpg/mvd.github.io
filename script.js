@@ -10,11 +10,11 @@ function render(list) {
     list.forEach(p => {
         tbody.innerHTML += `
             <tr>
-                <td>${p.id}</td>
-                <td>${p.name}</td>
-                <td>${p.dob}</td>
-                <td>${p.status}</td>
-                <td>${p.region}</td>
+                <td data-label="ID">${p.id}</td>
+                <td data-label="ФИО">${p.name}</td>
+                <td data-label="Дата рождения">${p.dob}</td>
+                <td data-label="Статус">${p.status}</td>
+                <td data-label="Регион">${p.region}</td>
             </tr>
         `;
     });

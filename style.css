@@ -71,3 +71,63 @@ footer {
     font-size: 12px;
     color: #7d8fa3;
 }
+/* 📱 Мобильная адаптация */
+@media (max-width: 768px) {
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    main {
+        padding: 12px;
+    }
+
+    .search-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        display: block;
+        border: 1px solid #243447;
+        margin-bottom: 12px;
+        padding: 10px;
+        background: #121a22;
+    }
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        padding: 6px 0;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #8aa0b5;
+    }
+
+    footer {
+        font-size: 11px;
+    }
+}
