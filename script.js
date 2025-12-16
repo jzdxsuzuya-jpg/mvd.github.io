@@ -1,6 +1,10 @@
 // =======================
 // 1️⃣ Пользователи и проверка
 // =======================
+// текущий пользователь
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+// пользователи системы
 let users = JSON.parse(localStorage.getItem("users")) || [
     { login: "admin", password: "1234", role: "admin" }
 ];
@@ -12,21 +16,45 @@ function saveUsers() {
 function handleRegister() {
     const login = document.getElementById("regLogin").value;
     const pass = document.getElementById("regPass").value;
-    if (!login || !pass) { alert("Введите логин и пароль"); return; }
-    if (users.find(u => u.login === login)) { alert("Пользователь существует"); return; }
-    users.push({ login, password: pass, role: "user" });
+
+    if (!login || !pass) {
+        alert("Введите логин и пароль");
+        return;
+    }
+
+    if (users.find(u => u.login === login)) {
+        alert("Пользователь уже существует");
+        return;
+    }
+
+    users.push({
+        login,
+        password: pass,
+        role: "user" // 👈 ВСЕГДА user
+    });
+
     saveUsers();
-    alert("Регистрация успешна!");
+    alert("Регистрация успешна");
     showLogin();
 }
 
 function handleLogin() {
     const login = document.getElementById("loginInput").value;
     const pass = document.getElementById("passInput").value;
-    const user = users.find(u => u.login === login && u.password === pass);
-    if (!user) { alert("Неверный логин или пароль"); return; }
+
+    const user = users.find(
+        u => u.login === login && u.password === pass
+    );
+
+    if (!user) {
+        alert("Неверный логин или пароль");
+        return;
+    }
+
     localStorage.setItem("currentUser", JSON.stringify(user));
-    initAdminPanel();
+    currentUser = user;
+
+    initPanel();
 }
 
 function logout() {
@@ -69,17 +97,25 @@ function save() { localStorage.setItem("people", JSON.stringify(data)); }
 function render(list) {
     const tbody = document.getElementById("result");
     tbody.innerHTML = "";
-    list.forEach((p,index)=>{
-        const options = statuses.map(s=>`<option value="${s}" ${s===p.status?"selected":""}>${s}</option>`).join("");
+
+    list.forEach(p => {
+        const isAdmin = currentUser && currentUser.role === "admin";
+
+        const statusCell = isAdmin
+            ? `<select onchange="changeStatus('${p.id}', this.value)">
+                ${statuses.map(s =>
+                    <option ${s === p.status ? "selected" : ""}>${s}</option>
+                ).join("")}
+               </select>`
+            : <span>${p.status}</span>;
+
         tbody.innerHTML += `
             <tr>
-                <td data-label="ID">${p.id}</td>
-                <td data-label="ФИО">${p.name}</td>
-                <td data-label="Дата рождения">${p.dob}</td>
-                <td data-label="Статус">
-                    <select class="status-select" onchange="changeStatus('${p.id}', this.value)">${options}</select>
-                </td>
-                <td data-label="Регион">${p.region}</td>
+                <td>${p.id}</td>
+                <td>${p.name}</td>
+                <td>${p.dob}</td>
+                <td>${statusCell}</td>
+                <td>${p.region}</td>
             </tr>
         `;
     });
@@ -98,8 +134,11 @@ function search() {
 // 5️⃣ Изменение статуса
 // =======================
 function changeStatus(id, newStatus) {
+    if (!currentUser || currentUser.role !== "admin") return;
+
     const person = data.find(p => p.id === id);
     if (!person) return;
+
     person.status = newStatus;
     save();
 }
@@ -107,14 +146,12 @@ function changeStatus(id, newStatus) {
 // =======================
 // 6️⃣ Инициализация панели
 // =======================
-function initAdminPanel() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if(!currentUser || currentUser.role!=="admin") {
-        alert("Доступ только для админа");
-        return;
-    }
-    document.getElementById("auth").style.display="none";
-    document.getElementById("adminPanel").style.display="block";
+function initPanel() {
+    if (!currentUser) return;
+
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+
     render(data);
 }
 
@@ -123,3 +160,7 @@ function initAdminPanel() {
 // =======================
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if(currentUser && currentUser.role==="admin") initAdminPanel();
+
+if (currentUser) {
+    initPanel();
+}
