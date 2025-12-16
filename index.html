@@ -1,54 +1,41 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>База МВД</title>
-    <style>
-        body { font-family: Arial; margin: 20px; background: #f0f2f5; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background: #e0e0e0; }
-        .login-box, .register-box { max-width: 300px; margin: 20px auto; }
-        input { width: 100%; margin: 5px 0; padding: 8px; }
-        button { width: 100%; padding: 8px; margin-top: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>База</title>
 </head>
 <body>
 
 <div id="auth">
-    <div class="login-box">
-        <h2>Вход</h2>
-        <input id="loginInput" placeholder="Логин">
-        <input id="passInput" placeholder="Пароль" type="password">
-        <button onclick="handleLogin()">Войти</button>
-        <p>или <a href="#" onclick="showRegister()">зарегистрироваться</a></p>
-    </div>
-    <div class="register-box" style="display:none;">
-        <h2>Регистрация</h2>
-        <input id="regLogin" placeholder="Логин">
-        <input id="regPass" placeholder="Пароль" type="password">
-        <button onclick="handleRegister()">Зарегистрироваться</button>
-        <p>или <a href="#" onclick="showLogin()">войти</a></p>
-    </div>
+  <div class="login-box">
+    <h3>Вход</h3>
+    <input id="loginInput" placeholder="Логин">
+    <input id="passInput" type="password" placeholder="Пароль">
+    <button onclick="handleLogin()">Войти</button>
+    <p><a href="#" onclick="showRegister()">Регистрация</a></p>
+  </div>
+
+  <div class="register-box" style="display:none;">
+    <h3>Регистрация</h3>
+    <input id="regLogin" placeholder="Логин">
+    <input id="regPass" type="password" placeholder="Пароль">
+    <button onclick="handleRegister()">Создать</button>
+    <p><a href="#" onclick="showLogin()">Назад</a></p>
+  </div>
 </div>
 
 <div id="adminPanel" style="display:none;">
-    <h2>Админ-панель</h2>
-    <button onclick="logout()">Выйти</button>
-    <input id="searchInput" placeholder="Поиск по ФИО или ID" onkeyup="search()">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>ФИО</th>
-                <th>Дата рождения</th>
-                <th>Статус</th>
-                <th>Регион</th>
-            </tr>
-        </thead>
-        <tbody id="result"></tbody>
-    </table>
+  <button onclick="logout()">Выйти</button>
+  <input id="searchInput" placeholder="Поиск" onkeyup="search()">
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>ID</th><th>ФИО</th><th>Дата рождения</th><th>Статус</th><th>Регион</th>
+      </tr>
+    </thead>
+    <tbody id="result"></tbody>
+  </table>
 </div>
 
 <script src="script.js"></script>
