@@ -3,28 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информационная база</title>
-    <link rel="stylesheet" href="style.css">
+    <title>База МВД</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f0f2f5; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #e0e0e0; }
+        .login-box, .register-box { max-width: 300px; margin: 20px auto; }
+        input { width: 100%; margin: 5px 0; padding: 8px; }
+        button { width: 100%; padding: 8px; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <div id="loader">
-    <div class="loader-box">
-        <div class="spinner"></div>
-        <p>Загрузка данных…</p>
+
+<div id="auth">
+    <div class="login-box">
+        <h2>Вход</h2>
+        <input id="loginInput" placeholder="Логин">
+        <input id="passInput" placeholder="Пароль" type="password">
+        <button onclick="handleLogin()">Войти</button>
+        <p>или <a href="#" onclick="showRegister()">зарегистрироваться</a></p>
+    </div>
+    <div class="register-box" style="display:none;">
+        <h2>Регистрация</h2>
+        <input id="regLogin" placeholder="Логин">
+        <input id="regPass" placeholder="Пароль" type="password">
+        <button onclick="handleRegister()">Зарегистрироваться</button>
+        <p>или <a href="#" onclick="showLogin()">войти</a></p>
     </div>
 </div>
 
-<header>
-    <h1>Единая информационная система</h1>
-    <p class="sub">Доступ: служебный</p>
-</header>
-
-<main>
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Поиск по ФИО или ID">
-        <button onclick="search()">Найти</button>
-    </div>
-
+<div id="adminPanel" style="display:none;">
+    <h2>Админ-панель</h2>
+    <button onclick="logout()">Выйти</button>
+    <input id="searchInput" placeholder="Поиск по ФИО или ID" onkeyup="search()">
     <table>
         <thead>
             <tr>
@@ -35,15 +47,9 @@
                 <th>Регион</th>
             </tr>
         </thead>
-        <tbody id="result">
-            <!-- данные -->
-        </tbody>
+        <tbody id="result"></tbody>
     </table>
-</main>
-
-<footer>
-    <p>База МВД Российской федерации.</p>
-</footer>
+</div>
 
 <script src="script.js"></script>
 </body>
