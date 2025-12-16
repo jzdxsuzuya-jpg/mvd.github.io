@@ -87,45 +87,31 @@ function initPanel() {
 }
 
 function render(list) {
-  const photoHTML = p.photo
-  ? <img src="${p.photo}" alt="Фото" style="width:50px;height:50px;border-radius:4px;">
-  : "—";
-  result.innerHTML += `
-  <tr>
-    <td>${photoHTML}</td>
-    <td>${p.id}</td>
-    <td>${p.name}</td>
-    <td>${p.dob}</td>
-    <td>${statusHTML}</td>
-    <td>${p.region}</td>
-  </tr>
-`;
-  const photoAction = isAdmin
-  ? <button onclick="changePhoto('${p.id}')">Изменить фото</button>
-  : "";
-  result.innerHTML += `
-  <tr>
-    <td>${photoHTML}${photoAction}</td>
-    <td>${p.id}</td>
-    <td>${p.name}</td>
-    <td>${p.dob}</td>
-    <td>${statusHTML}</td>
-    <td>${p.region}</td>
-  </tr>
-`;
-  const isAdmin = currentUser.role === "admin";
+  const tbody = document.getElementById("result");
+  tbody.innerHTML = "";
+
+  const isAdmin = currentUser && currentUser.role === "admin";
 
   list.forEach(p => {
+    const photoHTML = p.photo
+      ? <img src="${p.photo}" alt="Фото" style="width:50px;height:50px;border-radius:4px;">
+      : "—";
+
+    const photoAction = isAdmin
+      ? <button onclick="changePhoto('${p.id}')">Изменить фото</button>
+      : "";
+
     const statusHTML = isAdmin
       ? `<select onchange="changeStatus('${p.id}', this.value)">
           ${statuses.map(s =>
-            `<option ${s===p.status?"selected":""}>${s}</option>`
+            <option ${s===p.status ? "selected" : ""}>${s}</option>
           ).join("")}
-         </select>`
+        </select>`
       : p.status;
 
-    result.innerHTML += `
+    tbody.innerHTML += `
       <tr>
+        <td>${photoHTML}${photoAction}</td>
         <td>${p.id}</td>
         <td>${p.name}</td>
         <td>${p.dob}</td>
