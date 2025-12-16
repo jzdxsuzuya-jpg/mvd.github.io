@@ -83,8 +83,12 @@ function render(list) {
   const isAdmin = currentUser && currentUser.role === "admin";
 
   list.forEach(p => {
-    const photoHTML = p.photo ? `<img src="${p.photo}" alt="Фото" style="width:50px;height:50px;border-radius:4px;">` : "—";
-    const photoAction = isAdmin ? `<button onclick="changePhoto('${p.id}')">Изменить фото</button>` : "";
+    const photoHTML = p.photo
+  ? <img src="${p.photo}" alt="Фото" style="width:100px;height:100px;border-radius:4px;">
+  : "—";
+    const photoAction = isAdmin
+  ? <button style="padding:2px 6px; font-size:12px; margin-left:4px;" onclick="changePhoto('${p.id}')">Изменить фото</button>
+  : "";
     const statusHTML = isAdmin
       ? `<select onchange="changeStatus('${p.id}', this.value)">
           ${statuses.map(s => `<option ${s===p.status?"selected":""}>${s}</option>`).join("")}
