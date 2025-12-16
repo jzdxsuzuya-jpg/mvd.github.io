@@ -104,7 +104,7 @@ function render(list) {
         const statusCell = isAdmin
             ? `<select onchange="changeStatus('${p.id}', this.value)">
                 ${statuses.map(s =>
-                    <option ${s === p.status ? "selected" : ""}>${s}</option>
+                    <option value="${s}" ${s === p.status ? "selected" : ""}>${s}</option>
                 ).join("")}
                </select>`
             : <span>${p.status}</span>;
@@ -158,9 +158,6 @@ function initPanel() {
 // =======================
 // 7️⃣ Проверка при загрузке
 // =======================
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-if(currentUser && currentUser.role==="admin") initAdminPanel();
-
 if (currentUser) {
     initPanel();
 }
