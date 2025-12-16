@@ -83,18 +83,24 @@ function render(list) {
   const isAdmin = currentUser && currentUser.role === "admin";
 
   list.forEach(p => {
+    // Фото
     const photoHTML = p.photo
-  ? <img src="${p.photo}" alt="Фото" style="width:100px;height:100px;border-radius:4px;">
-  : "—";
+      ? <img src="${p.photo}" alt="Фото" style="width:100px;height:100px;border-radius:4px;">
+      : "—";
+
+    // Кнопка для админа
     const photoAction = isAdmin
-  ? <button style="padding:2px 6px; font-size:12px; margin-left:4px;" onclick="changePhoto('${p.id}')">Изменить фото</button>
-  : "";
+      ? <button style="padding:2px 6px; font-size:12px; margin-left:4px;" onclick="changePhoto('${p.id}')">Изменить фото</button>
+      : "";
+
+    // Статус
     const statusHTML = isAdmin
       ? `<select onchange="changeStatus('${p.id}', this.value)">
           ${statuses.map(s => `<option ${s===p.status?"selected":""}>${s}</option>`).join("")}
         </select>`
       : p.status;
 
+    // Вставка строки
     tbody.innerHTML += `
       <tr>
         <td>${photoHTML}${photoAction}</td>
