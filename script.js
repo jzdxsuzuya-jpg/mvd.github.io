@@ -55,9 +55,9 @@ window.showLogin = function () {
 // ---------------- DATA ----------------
 
 const defaultData = [
-  { id:"548291", name:"Илюшин Павел Ильич", dob:"09.07.2007", status:"Без ограничений", region:"Санкт-Петербург" },
-  { id:"774102", name:"Илюшина Елена Олеговна", dob:"04.05.1985", status:"В розыске", region:"Санкт-Петербург" },
-  { id:"119384", name:"Илюшин Илья Андреевич", dob:"08.02.1985", status:"Без ограничений", region:"Санкт-Петербург" }
+  { id:"548291", name:"Илюшин Павел Ильич", dob:"09.07.2007", status:"Без ограничений", region:"Санкт-Петербург", photo:"" },
+  { id:"774102", name:"Илюшина Елена Олеговна", dob:"04.05.1985", status:"В розыске", region:"Санкт-Петербург", photo:"" },
+  { id:"119384", name:"Илюшин Илья Андреевич", dob:"08.02.1985", status:"Без ограничений", region:"Санкт-Петербург", photo:"" }
 ];
 
 if (!localStorage.getItem("people")) {
@@ -87,7 +87,32 @@ function initPanel() {
 }
 
 function render(list) {
-  result.innerHTML = "";
+  const photoHTML = p.photo
+  ? <img src="${p.photo}" alt="Фото" style="width:50px;height:50px;border-radius:4px;">
+  : "—";
+  result.innerHTML += `
+  <tr>
+    <td>${photoHTML}</td>
+    <td>${p.id}</td>
+    <td>${p.name}</td>
+    <td>${p.dob}</td>
+    <td>${statusHTML}</td>
+    <td>${p.region}</td>
+  </tr>
+`;
+  const photoAction = isAdmin
+  ? <button onclick="changePhoto('${p.id}')">Изменить фото</button>
+  : "";
+  result.innerHTML += `
+  <tr>
+    <td>${photoHTML}${photoAction}</td>
+    <td>${p.id}</td>
+    <td>${p.name}</td>
+    <td>${p.dob}</td>
+    <td>${statusHTML}</td>
+    <td>${p.region}</td>
+  </tr>
+`;
   const isAdmin = currentUser.role === "admin";
 
   list.forEach(p => {
@@ -119,6 +144,20 @@ window.changeStatus = function (id, value) {
   savePeople();
 };
 
+  window.changePhoto = function(id) {
+  if (currentUser.role !== "admin") return alert("Только для админа");
+
+  const person = data.find(p => p.id === id);
+  if (!person) return;
+
+  const url = prompt("Вставьте ссылку на фото:", person.photo || "");
+  if (!url) return;
+
+  person.photo = url;
+  savePeople();
+  render(data);
+};
+  
 window.search = function () {
   const q = searchInput.value.toLowerCase();
   render(data.filter(p =>
