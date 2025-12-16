@@ -77,7 +77,7 @@ function render(list) {
                 <td data-label="ФИО">${p.name}</td>
                 <td data-label="Дата рождения">${p.dob}</td>
                 <td data-label="Статус">
-                    <select class="status-select" onchange="changeStatus(${index}, this.value)">${options}</select>
+                    <select class="status-select" onchange="changeStatus('${p.id}', this.value)">${options}</select>
                 </td>
                 <td data-label="Регион">${p.region}</td>
             </tr>
@@ -97,8 +97,10 @@ function search() {
 // =======================
 // 5️⃣ Изменение статуса
 // =======================
-function changeStatus(index,newStatus){
-    data[index].status=newStatus;
+function changeStatus(id, newStatus) {
+    const person = data.find(p => p.id === id);
+    if (!person) return;
+    person.status = newStatus;
     save();
 }
 
